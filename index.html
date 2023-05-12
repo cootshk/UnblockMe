@@ -1,12 +1,52 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>UnblockMe!</title>
-        <link rel="stylesheet" href="index.css">
+        <title>Unbl0ckMe!</title>
+        <style>
+            #input-container {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+            }
+            #input-box {
+                padding: 10px;
+                font-size: 16px;
+                border: 1px solid black;
+                border-radius: 5px;
+            }
+        </style>
     </head>
     <body>
-        <script src="button.js"></script>
-        <input type="text" id="url" placeholder="URL">
-        <button id="go">Go</button>
+        <div id="input-container">
+            <input type="text" id="input-box" placeholder="Enter a URL" onkeyup="remember(this)">
+            <br>
+            <button onclick="redirectToInput()">Submit</button><br>
+            <p id="message"></p>
+        </div>
+        <script>
+            function redirectToInput() {
+                var input = document.getElementById("input-box");
+                window.location.href = '/' + input.value;
+            }
+            function remember(input) {
+                var message = document.getElementById("message");
+                if (input.value.length > 0) {
+                    localStorage.setItem("inputs", input.value);
+                    //message.innerHTML = "Website to load: https://" + localStorage.inputs;
+                //} else {
+                    //message.innerHTML = "";
+                }
+            }
+            // Restore previous input when the page loads.
+            window.onload = function() {
+                var input = document.getElementById("input-box");
+                if (localStorage.inputs) {
+                    input.value = localStorage.inputs;
+                    remember(input);
+                }
+            };
+        </script>
     </body>
 </html>
